@@ -48,6 +48,7 @@ const StyledCredit = styled.div`
 
   a {
     padding: 10px;
+    font-size: 0.5em;
   }
 
   .github-stats {
@@ -106,7 +107,7 @@ const Footer = () => {
 
       <StyledCredit tabindex="-1">
         <a href="https://github.com/bchiang7/v4">
-          <div>Designed &amp; Built by Brittany Chiang</div>
+          <div>Thanks to Brittany Chiang for making her portfolio site open source.</div>
 
           {githubInfo.stars && githubInfo.forks && (
             <div className="github-stats">

@@ -155,9 +155,15 @@ const About = () => {
     'CSS3',
     'HTML5',
     'GraphQL',
-    // 'Heroku',
     'OAuth2.0',
     'WSO2IS',
+    'JUCE',
+    'C++',
+    'CMake',
+    'Software Architecture',
+    'CI/CD',
+    'Microservices',
+    'DDD'
   ];
 
   return (
@@ -180,7 +186,7 @@ const About = () => {
               EBERUS <a href="https://www.eberus.com/">a start-up</a> with a cloud SaaS platform,
               where I worked on 3D interactive configurators and real-time product visualization, my
               career took a significant turn with the POCITYF project -{' '}
-              <a href="https://pocityf.eu/"> Europe’s renewable energy transition </a> - where as
+              <a href="https://pocityf.eu/"> Europe's renewable energy transition </a> - where as
               the lead software engineer, I developed a P2P energy trading app, integrating
               sustainable energy solutions into cities with cultural heritage. Currently, I'm
               focusing on creating inclusive and engaging digital experiences at Intralot,{' '}
@@ -197,7 +203,7 @@ const About = () => {
               &amp; React.
             </p> */}
 
-            <p>Here are a few technologies I’ve been working with recently:</p>
+            <p>Here are a few technologies I've been working with recently:</p>
           </div>
 
           <ul className="skills-list">
