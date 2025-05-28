@@ -7,7 +7,7 @@ module.exports = {
     title: 'Ivan Ilyich',
     description: 'Personal portfolio and blog',
     siteUrl: 'https://ivan-ilyich.github.io/portfolio',
-    image: '/og.png',
+    image: '/portfolio/og.png',
     twitterUsername: '@bchiang7',
   },
   plugins: [
@@ -23,14 +23,26 @@ module.exports = {
       options: {
         name: 'Ivan Ilyich Portfolio',
         short_name: 'Portfolio',
-        start_url: '/',
+        start_url: '/portfolio/',
         background_color: '#0a192f',
         theme_color: '#0a192f',
         display: 'minimal-ui',
         icon: 'static/favicon-32x32.png',
+        include_favicon: true,
+        legacy: true,
+        theme_color_in_head: true,
+        cache_busting_mode: 'query',
+        crossOrigin: `use-credentials`,
       },
     },
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `static`,
+        path: `${__dirname}/static`,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
