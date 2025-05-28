@@ -2,7 +2,6 @@ const config = require('./src/config');
 
 module.exports = {
   pathPrefix: '/portfolio',
-  assetPrefix: '/portfolio',
   siteMetadata: {
     title: 'Ivan Ilyich',
     description: 'Personal portfolio and blog',
