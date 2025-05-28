@@ -7,7 +7,7 @@ module.exports = {
     title: 'Ivan Ilyich',
     description: 'Personal portfolio and blog',
     siteUrl: 'https://ivan-ilyich.github.io/portfolio',
-    image: '/portfolio/og.png', // Updated path
+    image: '/og.png',
     twitterUsername: '@bchiang7',
   },
   plugins: [
@@ -23,7 +23,7 @@ module.exports = {
       options: {
         name: 'Ivan Ilyich Portfolio',
         short_name: 'Portfolio',
-        start_url: '/portfolio/',
+        start_url: '/',
         background_color: '#0a192f',
         theme_color: '#0a192f',
         display: 'minimal-ui',
