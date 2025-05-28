@@ -65,8 +65,8 @@ const Hero = () => {
   const four = (
     <>
       <p>
-        I’m a software engineer specializing in building (and occasionally designing) exceptional
-        digital experiences. Currently, I’m focused on building accessible, human-centered products
+        I'm a software engineer specializing in building (and occasionally designing) exceptional
+        digital experiences. Currently, I'm focused on building accessible, human-centered products
         at{' '}
         <a href="https://www.intralot.com/" target="_blank" rel="noreferrer">
           Intralot
@@ -76,8 +76,8 @@ const Hero = () => {
     </>
   );
   const five = (
-    <a className="email-link" href="/blog" target="_blank" rel="noreferrer">
-      Check out my blog!
+    <a className="email-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+      Check out my Resume
     </a>
   );
 

@@ -208,7 +208,7 @@ const Nav = ({ isHome }) => {
   const ResumeLink = (
     <a
       className="resume-button"
-      href="/qpdf --empty --pages input.pdf 1-z -- output.pdfqpdf --empty --pages input.pdf 1-z -- output.pdfresume.pdf"
+      href="/resume.pdf"
       target="_blank"
       rel="noopener noreferrer">
       Resume
