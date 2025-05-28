@@ -2,11 +2,12 @@ const config = require('./src/config');
 
 module.exports = {
   pathPrefix: '/portfolio',
+  assetPrefix: '/portfolio',
   siteMetadata: {
     title: 'Ivan Ilyich',
     description: 'Personal portfolio and blog',
     siteUrl: 'https://ivan-ilyich.github.io/portfolio',
-    image: '/og.png', // Path to your image you placed in the 'static' folder
+    image: '/portfolio/og.png', // Updated path
     twitterUsername: '@bchiang7',
   },
   plugins: [
@@ -22,7 +23,7 @@ module.exports = {
       options: {
         name: 'Ivan Ilyich Portfolio',
         short_name: 'Portfolio',
-        start_url: '/',
+        start_url: '/portfolio/',
         background_color: '#0a192f',
         theme_color: '#0a192f',
         display: 'minimal-ui',
