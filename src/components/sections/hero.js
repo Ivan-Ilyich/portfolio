@@ -3,6 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { navDelay, loaderDelay } from '@utils';
 import { usePrefersReducedMotion } from '@hooks';
+import { withPrefix } from "gatsby";
 
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -76,7 +77,7 @@ const Hero = () => {
     </>
   );
   const five = (
-    <a className="email-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+    <a className="email-link" href={withPrefix("/resume.pdf")} target="_blank" rel="noopener noreferrer">
       Check out my Resume
     </a>
   );
