@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import { Head, Loader, Nav, Social, Email, Footer } from '@components';
 import { GlobalStyle, theme } from '@styles';
+import { useLocation } from '@reach/router';
+
 
 const StyledContent = styled.div`
   display: flex;
@@ -10,8 +12,10 @@ const StyledContent = styled.div`
   min-height: 100vh;
 `;
 
-const Layout = ({ children, location }) => {
-  const isHome = location.pathname === '/';
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const isHome = location.pathname === '/' || location.pathname === '/portfolio/';
+
   const [isLoading, setIsLoading] = useState(isHome);
 
   // Sets target="_blank" rel="noopener noreferrer" on external links
