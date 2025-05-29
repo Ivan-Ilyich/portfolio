@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://ivan-ilyich.github.io/sitemap-index.xml
-Host: https://ivan-ilyich.github.io
