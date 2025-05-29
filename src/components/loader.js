@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import anime from 'animejs';
@@ -21,7 +21,6 @@ const StyledLoader = styled.div`
     width: max-content;
     max-width: 100px;
     transition: var(--transition);
-    opacity: ${props => (props.isMounted ? 1 : 0)};
     svg {
       display: block;
       width: 100%;
@@ -29,6 +28,15 @@ const StyledLoader = styled.div`
       margin: 0 auto;
       fill: none;
       user-select: none;
+
+      path {
+        stroke: currentColor;
+        stroke-width: 5;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        opacity: 0;
+      }
+
       #B {
         opacity: 0;
       }
@@ -38,54 +46,95 @@ const StyledLoader = styled.div`
 
 const Loader = ({ finishLoading }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const logoRef = useRef(null);
+  const loaderRef = useRef(null);
 
-  const animate = () => {
-    const loader = anime.timeline({
-      complete: () => finishLoading(),
-    });
+  useLayoutEffect(() => {
+    console.log('useLayoutEffect running');
+    console.log('Initial refs:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
 
-    loader
-      .add({
-        targets: '#logo path',
-        delay: 300,
-        duration: 1500,
-        easing: 'easeInOutQuart',
-        strokeDashoffset: [anime.setDashoffset, 0],
-      })
-      .add({
-        targets: '#logo #B',
-        duration: 700,
-        easing: 'easeInOutQuart',
-        opacity: 1,
-      })
-      .add({
-        targets: '#logo',
-        delay: 500,
-        duration: 300,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        scale: 0.1,
-      })
-      .add({
-        targets: '.loader',
-        duration: 200,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        zIndex: -1,
+    const timeout = setTimeout(() => {
+      setIsMounted(true);
+      console.log('After timeout - Refs:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
+
+      if (!logoRef.current || !loaderRef.current) {
+        console.warn('Refs not ready:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
+        return;
+      }
+
+      const logoPaths = logoRef.current.querySelectorAll('path');
+      const logoB = logoRef.current.querySelector('#B');
+
+      console.log('Found elements:', {
+        paths: logoPaths.length,
+        pathElements: Array.from(logoPaths).map(p => p.outerHTML),
+        logoB: logoB?.outerHTML
       });
-  };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsMounted(true), 10);
-    animate();
+      if (!logoPaths.length || !logoB) {
+        console.warn('Logo elements not found', { paths: logoPaths, logoB });
+        return;
+      }
+
+      console.log('Starting animation timeline');
+      const loader = anime.timeline({
+        complete: () => {
+          console.log('Animation complete');
+          // Log final computed styles
+          const firstPath = logoPaths[0];
+          const computedStyle = window.getComputedStyle(firstPath);
+          console.log('Final computed styles:', {
+            strokeDashoffset: computedStyle.strokeDashoffset,
+            opacity: computedStyle.opacity,
+            stroke: computedStyle.stroke
+          });
+          finishLoading();
+        },
+      });
+
+      loader
+        .add({
+          targets: logoPaths,
+          delay: 300,
+          duration: 1500,
+          easing: 'easeInOutQuart',
+          strokeDashoffset: [anime.setDashoffset, 0],
+          opacity: [0, 1],
+          stroke: '#64ffda'
+        })
+        .add({
+          targets: logoB,
+          duration: 700,
+          easing: 'easeInOutQuart',
+          opacity: 1,
+        })
+        .add({
+          targets: logoRef.current,
+          delay: 500,
+          duration: 300,
+          easing: 'easeInOutQuart',
+          opacity: 0,
+          scale: 0.1,
+        })
+        .add({
+          targets: loaderRef.current,
+          duration: 200,
+          easing: 'easeInOutQuart',
+          opacity: 0,
+          zIndex: -1,
+        });
+
+      console.log('Animation timeline created');
+    }, 100);
+
     return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <StyledLoader className="loader" isMounted={isMounted}>
+    <StyledLoader className="loader" ref={loaderRef}>
       <Helmet bodyAttributes={{ class: `hidden` }} />
-
-      <div className="logo-wrapper">
+      {console.log('Render - logoRef content:', logoRef.current?.innerHTML)}
+      <div className="logo-wrapper" ref={logoRef}>
         <IconLoader />
       </div>
     </StyledLoader>
