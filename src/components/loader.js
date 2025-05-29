@@ -50,81 +50,69 @@ const Loader = ({ finishLoading }) => {
   const loaderRef = useRef(null);
 
   useLayoutEffect(() => {
-    console.log('useLayoutEffect running');
-    console.log('Initial refs:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
-
     const timeout = setTimeout(() => {
       setIsMounted(true);
-      console.log('After timeout - Refs:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
 
-      if (!logoRef.current || !loaderRef.current) {
-        console.warn('Refs not ready:', { logoRef: logoRef.current, loaderRef: loaderRef.current });
-        return;
-      }
+      let attempts = 0;
+      const MAX_ATTEMPTS = 10;
 
-      const logoPaths = logoRef.current.querySelectorAll('path');
-      const logoB = logoRef.current.querySelector('#B');
+      const checkAndAnimate = () => {
+        const logoNode = logoRef.current;
+        const loaderNode = loaderRef.current;
 
-      console.log('Found elements:', {
-        paths: logoPaths.length,
-        pathElements: Array.from(logoPaths).map(p => p.outerHTML),
-        logoB: logoB?.outerHTML
-      });
+        if (!logoNode || !loaderNode || !logoNode.querySelectorAll) {
+          if (attempts < MAX_ATTEMPTS) {
+            attempts++;
+            setTimeout(checkAndAnimate, 100);
+          }
+          return;
+        }
 
-      if (!logoPaths.length || !logoB) {
-        console.warn('Logo elements not found', { paths: logoPaths, logoB });
-        return;
-      }
+        const logoPaths = logoNode.querySelectorAll('path');
+        const logoB = logoNode.querySelector('#B');
 
-      console.log('Starting animation timeline');
-      const loader = anime.timeline({
-        complete: () => {
-          console.log('Animation complete');
-          // Log final computed styles
-          const firstPath = logoPaths[0];
-          const computedStyle = window.getComputedStyle(firstPath);
-          console.log('Final computed styles:', {
-            strokeDashoffset: computedStyle.strokeDashoffset,
-            opacity: computedStyle.opacity,
-            stroke: computedStyle.stroke
-          });
-          finishLoading();
-        },
-      });
+        if (!logoPaths.length || !logoB) {
+          return;
+        }
 
-      loader
-        .add({
-          targets: logoPaths,
-          delay: 300,
-          duration: 1500,
-          easing: 'easeInOutQuart',
-          strokeDashoffset: [anime.setDashoffset, 0],
-          opacity: [0, 1],
-          stroke: '#64ffda'
-        })
-        .add({
-          targets: logoB,
-          duration: 700,
-          easing: 'easeInOutQuart',
-          opacity: 1,
-        })
-        .add({
-          targets: logoRef.current,
-          delay: 500,
-          duration: 300,
-          easing: 'easeInOutQuart',
-          opacity: 0,
-          scale: 0.1,
-        })
-        .add({
-          targets: loaderRef.current,
-          duration: 200,
-          easing: 'easeInOutQuart',
-          opacity: 0,
-          zIndex: -1,
+        const loader = anime.timeline({
+          complete: () => finishLoading(),
         });
 
-      console.log('Animation timeline created');
+        loader
+          .add({
+            targets: logoPaths,
+            delay: 300,
+            duration: 1500,
+            easing: 'easeInOutQuart',
+            strokeDashoffset: [anime.setDashoffset, 0],
+            opacity: [0, 1],
+            stroke: '#64ffda'
+          })
+          .add({
+            targets: logoB,
+            duration: 700,
+            easing: 'easeInOutQuart',
+            opacity: 1,
+          })
+          .add({
+            targets: logoNode,
+            delay: 500,
+            duration: 300,
+            easing: 'easeInOutQuart',
+            opacity: 0,
+            scale: 0.1,
+          })
+          .add({
+            targets: loaderNode,
+            duration: 200,
+            easing: 'easeInOutQuart',
+            opacity: 0,
+            zIndex: -1,
+          });
+      };
+
+      checkAndAnimate();
     }, 100);
 
     return () => clearTimeout(timeout);
@@ -133,7 +121,6 @@ const Loader = ({ finishLoading }) => {
   return (
     <StyledLoader className="loader" ref={loaderRef}>
       <Helmet bodyAttributes={{ class: `hidden` }} />
-      {console.log('Render - logoRef content:', logoRef.current?.innerHTML)}
       <div className="logo-wrapper" ref={logoRef}>
         <IconLoader />
       </div>
