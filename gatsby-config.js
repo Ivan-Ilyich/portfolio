@@ -64,11 +64,11 @@ module.exports = {
       resolve: 'gatsby-plugin-csp',
       options: {
         disableOnDev: true,
-        mergeScriptHashes: true,
-        mergeStyleHashes: true,
+        mergeScriptHashes: false,
+        mergeStyleHashes: false,
         directives: {
           'default-src': "'self'",
-          'script-src': "'self' 'unsafe-inline' 'unsafe-eval' blob:",
+          'script-src': "'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.google-analytics.com",
           'style-src': "'self' 'unsafe-inline'",
           'img-src': "'self' data: blob:",
           'connect-src': "'self'",
